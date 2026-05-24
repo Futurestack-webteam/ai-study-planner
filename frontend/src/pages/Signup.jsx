@@ -42,7 +42,7 @@ function Signup() {
 
     const response =
       await axios.post(
-        "http://localhost:8080/api/auth/send-otp",
+        "https://ai-study-planner-52s9.onrender.com/api/auth/send-otp",
         {
           email,
         }
@@ -92,7 +92,7 @@ function Signup() {
 
       const response =
         await axios.post(
-          "http://localhost:8080/api/auth/signup",
+          "https://ai-study-planner-52s9.onrender.com/api/auth/signup",
        {
          fullName,
          email,

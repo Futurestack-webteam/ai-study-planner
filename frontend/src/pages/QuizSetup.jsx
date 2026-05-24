@@ -238,7 +238,7 @@ setTimeout(() => {
 
         const response =
           await fetch(
-            "http://localhost:5000/generate-quiz",
+            "https://ai-study-planner-52s9.onrender.com/generate-quiz",
             {
               method: "POST",
               body: formData,
@@ -278,7 +278,7 @@ localStorage.setItem(
 );
 
 await fetch(
-  "http://localhost:8080/api/quizzes",
+  "https://ai-study-planner-52s9.onrender.com/api/quizzes",
   {
     method: "POST",
 

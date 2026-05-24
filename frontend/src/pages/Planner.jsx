@@ -171,7 +171,7 @@ if (
     // AI PLAN GENERATION
 
     const response = await fetch(
-      "http://localhost:5000/generate-plan",
+      "https://ai-study-planner-52s9.onrender.com/generate-plan",
       {
         method: "POST",
 
@@ -196,7 +196,7 @@ if (
     // SAVE TO MONGODB THROUGH SPRING BOOT
 
     await fetch(
-      "http://localhost:8080/api/studyplans",
+      "https://ai-study-planner-52s9.onrender.com/api/studyplans",
       {
         method: "POST",
 

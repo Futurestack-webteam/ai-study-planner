@@ -30,7 +30,7 @@ function ForgotPassword() {
 
       const response =
         await axios.post(
-          "http://localhost:8080/api/auth/send-otp",
+          "https://ai-study-planner-52s9.onrender.com/api/auth/send-otp",
           {
             email,
           }
@@ -70,7 +70,7 @@ function ForgotPassword() {
 
       const response =
         await axios.post(
-          "http://localhost:8080/api/auth/reset-password",
+          "https://ai-study-planner-52s9.onrender.com/api/auth/reset-password",
           {
             email,
             otp,

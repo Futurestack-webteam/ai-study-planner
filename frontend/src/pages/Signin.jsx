@@ -30,7 +30,7 @@ function Signin() {
 
       const response =
         await axios.post(
-          "http://localhost:8080/api/auth/signin",
+          "https://ai-study-planner-52s9.onrender.com/api/auth/signin",
           {
             email,
             password,
