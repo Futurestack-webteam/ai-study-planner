@@ -1,0 +1,255 @@
+body{
+  margin: 0;
+  padding: 0;
+  background: #0f172a;
+  font-family: Arial, sans-serif;
+}
+
+.app{
+  min-height: 100vh;
+  color: white;
+}
+
+/* Navbar */
+
+.navbar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 40px;
+  border-bottom: 1px solid #1e293b;
+  position: relative;
+}
+
+.logo{
+  color: #38bdf8;
+  font-size: 42px;
+  font-weight: bold;
+}
+
+.nav-buttons{
+  position: absolute;
+  right: 40px;
+  display: flex;
+  gap: 15px;
+}
+
+.nav-btn{
+  padding: 10px 20px;
+  background: transparent;
+  color: white;
+  border: 1px solid #38bdf8;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Hero */
+
+.hero{
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero h1{
+  font-size: 70px;
+  line-height: 1.3;
+  margin-bottom: 20px;
+}
+
+.hero p{
+  max-width: 700px;
+  margin: auto;
+  color: #cbd5e1;
+  line-height: 1.8;
+  font-size: 20px;
+}
+
+.get-btn{
+  margin-top: 35px;
+  padding: 15px 35px;
+  font-size: 18px;
+  background: #38bdf8;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Features */
+
+.features{
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.feature-card{
+  width: 280px;
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 15px;
+}
+
+.feature-card h3{
+  color: #38bdf8;
+  margin-bottom: 15px;
+}
+
+.feature-card p{
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+/* How Section */
+
+.how-section{
+  padding: 100px 20px;
+  text-align: center;
+}
+
+.how-section h2{
+  font-size: 50px;
+  margin-bottom: 50px;
+}
+
+.steps{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.step-card{
+  width: 250px;
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 15px;
+}
+
+.step-card h3{
+  color: #38bdf8;
+}
+
+.step-card p{
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+/* Dashboard Preview */
+
+.dashboard-preview{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  flex-wrap: wrap;
+  padding: 100px 20px;
+}
+
+.dashboard-text{
+  max-width: 500px;
+}
+
+.dashboard-text h2{
+  font-size: 48px;
+  margin-bottom: 25px;
+}
+
+.dashboard-text p{
+  color: #cbd5e1;
+  line-height: 1.8;
+  font-size: 18px;
+}
+
+.preview-btn{
+  margin-top: 30px;
+  padding: 14px 30px;
+  background: #38bdf8;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.dashboard-card{
+  width: 400px;
+  background: #172554;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 0 25px rgba(56,189,248,0.15);
+}
+
+.dashboard-top{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.circle{
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.red{
+  background: #ef4444;
+}
+
+.yellow{
+  background: #facc15;
+}
+
+.green{
+  background: #22c55e;
+}
+
+.dashboard-content{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dashboard-box{
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.dashboard-box h4{
+  color: #38bdf8;
+  margin-bottom: 10px;
+}
+
+.dashboard-box p{
+  color: #e2e8f0;
+}
+
+/* Responsive */
+
+@media(max-width: 768px){
+
+  .logo{
+    font-size: 28px;
+  }
+
+  .hero h1{
+    font-size: 45px;
+  }
+
+  .hero p{
+    font-size: 17px;
+  }
+
+  .dashboard-text h2{
+    font-size: 36px;
+  }
+
+  .nav-buttons{
+    right: 20px;
+  }
+}
