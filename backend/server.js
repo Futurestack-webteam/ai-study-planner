@@ -56,17 +56,9 @@ const jwt = require("jsonwebtoken");
 
 const otpStorage = {};
 
-// const users = [];
 const axios = require("axios");
 const mongoose = require("mongoose");
 
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-  console.log("MongoDB Connected");
-})
-.catch((error) => {
-  console.log("MongoDB Error =>", error);
-});
 
 const userSchema = new mongoose.Schema({
   fullName: String,
@@ -825,10 +817,36 @@ SERVER
 ==================================================
 */
 
-const PORT = 5000;
+/*
+==================================================
+MONGODB + SERVER START
+==================================================
+*/
 
-app.listen(PORT, () => {
-  console.log(
-    `Server running on port ${PORT}`
-  );
-});
+const PORT = process.env.PORT || 5000;
+
+mongoose.connect(process.env.MONGO_URI, {
+  serverSelectionTimeoutMS: 30000,
+})
+  .then(() => {
+
+    console.log("MongoDB Connected");
+
+    app.listen(PORT, () => {
+
+      console.log(
+        `Server running on port ${PORT}`
+      );
+
+    });
+
+  })
+
+  .catch((error) => {
+
+    console.log(
+      "MongoDB Error =>",
+      error
+    );
+
+  });
