@@ -57,8 +57,9 @@ const jwt = require("jsonwebtoken");
 const otpStorage = {};
 
 const users = [];
-const nodemailer = require("nodemailer");
+const axios = require("axios");
 
+/*
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
   port: 587,
@@ -68,18 +69,8 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
 });
-transporter.verify(function (error, success) {
-  if (error) {
-    console.log("SMTP ERROR:", error);
-  } else {
-    console.log("SMTP READY");
-  }
-});
+*/
 
 /*
 ==================================================
@@ -98,17 +89,37 @@ app.post("/api/auth/send-otp", async (req, res) => {
 
     otpStorage[email] = otp;
 
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+await axios.post(
+  "https://api.brevo.com/v3/smtp/email",
+  {
+    sender: {
+      name: "AI Study Planner",
+      email: process.env.EMAIL_USER,
+    },
 
-      to: email,
+    to: [
+      {
+        email: email,
+      },
+    ],
 
-      subject:
-        "AI Study Planner OTP Verification",
+    subject:
+      "AI Study Planner OTP Verification",
 
-      text: `Your OTP is: ${otp}`,
-    });
-
+    htmlContent: `
+      <h2>Your OTP Code</h2>
+      <h1>${otp}</h1>
+      <p>Valid for 5 minutes.</p>
+    `,
+  },
+  {
+    headers: {
+      accept: "application/json",
+      "api-key": process.env.BREVO_API_KEY,
+      "content-type": "application/json",
+    },
+  }
+);
     console.log("OTP SENT =>", otp);
 
     res.json({
