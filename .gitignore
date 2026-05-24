@@ -4,4 +4,3 @@ target
 dist
 build
 *.log
-backend/src/main/resources/application.properties
