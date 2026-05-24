@@ -28,7 +28,6 @@ AI powered smart study planner with quiz and timetable generation.
 ## Developed By
 
 - Arjun RJ
-- Your Brother Name
 
 ## Organization
 
