@@ -56,8 +56,31 @@ const jwt = require("jsonwebtoken");
 
 const otpStorage = {};
 
-const users = [];
+// const users = [];
 const axios = require("axios");
+const mongoose = require("mongoose");
+
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+  console.log("MongoDB Connected");
+})
+.catch((error) => {
+  console.log("MongoDB Error =>", error);
+});
+
+const userSchema = new mongoose.Schema({
+  fullName: String,
+  email: {
+    type: String,
+    unique: true,
+  },
+  password: String,
+});
+
+const User = mongoose.model(
+  "User",
+  userSchema
+);
 
 /*
 const transporter = nodemailer.createTransport({
@@ -165,10 +188,8 @@ app.post("/api/auth/signup", async (req, res) => {
       });
     }
 
-    const existingUser =
-      users.find(
-        (u) => u.email === email
-      );
+const existingUser =
+  await User.findOne({ email });
 
     if (existingUser) {
 
@@ -181,13 +202,13 @@ app.post("/api/auth/signup", async (req, res) => {
     const hashedPassword =
       await bcrypt.hash(password, 10);
 
-    const user = {
-      fullName,
-      email,
-      password: hashedPassword,
-    };
+const user = new User({
+  fullName,
+  email,
+  password: hashedPassword,
+});
 
-    users.push(user);
+await user.save();
 
     const token = jwt.sign(
       { email },
@@ -235,11 +256,8 @@ app.post("/api/auth/signin", async (req, res) => {
       password,
     } = req.body;
 
-    const user =
-      users.find(
-        (u) => u.email === email
-      );
-
+const user =
+  await User.findOne({ email });
     if (!user) {
 
       return res.status(400).json({
