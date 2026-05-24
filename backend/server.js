@@ -50,6 +50,224 @@ app.get("/", (req, res) => {
   res.send("AI Server Running");
 });
 
+const nodemailer = require("nodemailer");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const otpStorage = {};
+
+const users = [];
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+/*
+==================================================
+SEND OTP
+==================================================
+*/
+
+app.post("/api/auth/send-otp", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const otp =
+      Math.floor(
+        100000 + Math.random() * 900000
+      ).toString();
+
+    otpStorage[email] = otp;
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+
+      to: email,
+
+      subject:
+        "AI Study Planner OTP Verification",
+
+      text: `Your OTP is: ${otp}`,
+    });
+
+    console.log("OTP SENT =>", otp);
+
+    res.json({
+      success: true,
+      message: "OTP sent successfully",
+    });
+
+  } catch (error) {
+
+    console.log(
+      "OTP ERROR =>",
+      error.message
+    );
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to send OTP",
+    });
+  }
+});
+
+/*
+==================================================
+SIGNUP
+==================================================
+*/
+
+app.post("/api/auth/signup", async (req, res) => {
+  try {
+
+    const {
+      fullName,
+      email,
+      password,
+      otp,
+    } = req.body;
+
+    if (otpStorage[email] !== otp) {
+
+      return res.status(400).json({
+        success: false,
+        message: "Invalid OTP",
+      });
+    }
+
+    const existingUser =
+      users.find(
+        (u) => u.email === email
+      );
+
+    if (existingUser) {
+
+      return res.status(400).json({
+        success: false,
+        message: "User already exists",
+      });
+    }
+
+    const hashedPassword =
+      await bcrypt.hash(password, 10);
+
+    const user = {
+      fullName,
+      email,
+      password: hashedPassword,
+    };
+
+    users.push(user);
+
+    const token = jwt.sign(
+      { email },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    res.json({
+      success: true,
+      token,
+
+      user: {
+        fullName,
+        email,
+      },
+    });
+
+  } catch (error) {
+
+    console.log(
+      "SIGNUP ERROR =>",
+      error.message
+    );
+
+    res.status(500).json({
+      success: false,
+      message: "Signup failed",
+    });
+  }
+});
+
+/*
+==================================================
+SIGNIN
+==================================================
+*/
+
+app.post("/api/auth/signin", async (req, res) => {
+  try {
+
+    const {
+      email,
+      password,
+    } = req.body;
+
+    const user =
+      users.find(
+        (u) => u.email === email
+      );
+
+    if (!user) {
+
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const validPassword =
+      await bcrypt.compare(
+        password,
+        user.password
+      );
+
+    if (!validPassword) {
+
+      return res.status(400).json({
+        success: false,
+        message: "Invalid password",
+      });
+    }
+
+    const token = jwt.sign(
+      { email },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    res.json({
+      success: true,
+      token,
+
+      user: {
+        fullName: user.fullName,
+        email: user.email,
+      },
+    });
+
+  } catch (error) {
+
+    console.log(
+      "SIGNIN ERROR =>",
+      error.message
+    );
+
+    res.status(500).json({
+      success: false,
+      message: "Signin failed",
+    });
+  }
+});
 /*
 ==================================================
 GENERATE STUDY PLAN
