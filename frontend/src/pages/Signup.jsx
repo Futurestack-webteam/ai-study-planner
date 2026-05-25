@@ -72,6 +72,8 @@ function Signup() {
       setOtpLoading(false);
     } else {
 
+      setOtpLoading(false);
+
       alert(
         response.data.message
       );
@@ -91,11 +93,17 @@ function Signup() {
 
   const signupUser = async () => {
 
+    if (signupLoading) return;
+
+setSignupLoading(true);
+
     if (
       !fullName ||
       !email ||
       !password
     ) {
+
+      setSignupLoading(false);
 
       alert("Fill all fields");
 
@@ -119,6 +127,8 @@ function Signup() {
         response.data.success
       ) {
 
+        setSignupLoading(false);
+
         localStorage.setItem(
           "token",
           response.data.token
@@ -137,12 +147,16 @@ function Signup() {
 
       } else {
 
+        setSignupLoading(false);
+
         alert(
           response.data.message
         );
       }
 
     } catch (error) {
+
+      setSignupLoading(false);
 
       console.log(error);
 
@@ -222,11 +236,14 @@ function Signup() {
 </button>
 ) : (
 
-  <button
-    onClick={signupUser}
-  >
-    Verify & Create Account
-  </button>
+<button
+  onClick={signupUser}
+  disabled={signupLoading}
+>
+  {signupLoading
+    ? "Creating Account..."
+    : "Verify & Create Account"}
+</button>
 
 )}
 
