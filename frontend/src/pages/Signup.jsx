@@ -23,13 +23,25 @@ function Signup() {
   const [otpSent, setOtpSent] =
     useState(false);
 
-  const sendOtp = async () => {
+  const [otpLoading, setOtpLoading] =
+    useState(false);
+
+  const [signupLoading, setSignupLoading] =
+    useState(false);
+
+    const sendOtp = async () => {
+
+  if (otpLoading) return;
+
+  setOtpLoading(true);
 
   if (
     !fullName ||
     !email ||
     !password
   ) {
+
+    setOtpLoading(false);
 
     alert(
       "Fill all fields first"
@@ -57,7 +69,7 @@ function Signup() {
       );
 
       setOtpSent(true);
-
+      setOtpLoading(false);
     } else {
 
       alert(
@@ -68,6 +80,8 @@ function Signup() {
   } catch (error) {
 
     console.log(error);
+
+    setOtpLoading(false);
 
     alert(
       "Failed to send OTP"
@@ -198,12 +212,14 @@ function Signup() {
 
 {!otpSent ? (
 
-  <button
-    onClick={sendOtp}
-  >
-    Send OTP
-  </button>
-
+<button
+  onClick={sendOtp}
+  disabled={otpLoading}
+>
+  {otpLoading
+    ? "Sending OTP..."
+    : "Send OTP"}
+</button>
 ) : (
 
   <button
