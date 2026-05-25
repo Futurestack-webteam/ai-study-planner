@@ -160,7 +160,10 @@ setSignupLoading(true);
 
       console.log(error);
 
-      alert("Signup failed");
+      alert(
+  error.response?.data?.message ||
+  "Signup failed"
+);
     }
   };
 
