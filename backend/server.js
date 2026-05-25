@@ -55,6 +55,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const otpStorage = {};
+const otpExpiry = {};
 
 const axios = require("axios");
 const mongoose = require("mongoose");
@@ -103,6 +104,8 @@ app.post("/api/auth/send-otp", async (req, res) => {
       ).toString();
 
     otpStorage[email] = otp;
+    otpExpiry[email] =
+  Date.now() + 5 * 60 * 1000;
 
 await axios.post(
   "https://api.brevo.com/v3/smtp/email",
@@ -172,13 +175,32 @@ app.post("/api/auth/signup", async (req, res) => {
       otp,
     } = req.body;
 
-    if (otpStorage[email] !== otp) {
+if (!otpStorage[email]) {
 
-      return res.status(400).json({
-        success: false,
-        message: "Invalid OTP",
-      });
-    }
+  return res.status(400).json({
+    success: false,
+    message: "OTP expired",
+  });
+}
+
+if (Date.now() > otpExpiry[email]) {
+
+  delete otpStorage[email];
+  delete otpExpiry[email];
+
+  return res.status(400).json({
+    success: false,
+    message: "OTP expired",
+  });
+}
+
+if (otpStorage[email] !== otp) {
+
+  return res.status(400).json({
+    success: false,
+    message: "Invalid OTP",
+  });
+}
 
 const existingUser =
   await User.findOne({ email });
